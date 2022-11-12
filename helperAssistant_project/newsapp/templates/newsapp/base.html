@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-5">
     <div class="navbar-brand">Helper Assistant</div>
     <button
             class="navbar-toggler"
@@ -46,11 +46,27 @@
 </nav>
 
 
+<div class="container-fluid m-50 p-50" >
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-primary">Left</button>
+      <button type="button" class="btn btn-primary">Middle</button>
+      <button type="button" class="btn btn-primary">Right</button>
+    </div>
+</div>
 
-<main class="template p-5 m-5" role="main">
+<div class="row g-100 m-10">
+  <div class="col-sm-6 col-md-8">.col-sm-6 .col-md-8</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+</div>
+
+
+
+<!--<main class="template p-5 m-5" role="main">
     {% block content %}
     {% endblock %}
-</main>
+</main>-->
+
+
 
 <footer class="bg-dark text-center text-white fixed-bottom">
     <div class="text-center">
