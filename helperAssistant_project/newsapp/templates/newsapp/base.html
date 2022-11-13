@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mb-5">
+<header>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="navbar-brand">Helper Assistant</div>
     <button
             class="navbar-toggler"
@@ -44,21 +45,63 @@
         </ul>
     </div>
 </nav>
+</header>
 
+<main>
+<div class="flex">
+    <div class="d-flex flex-column flex-shrink-3 p-3 bg-dark" style="width: 280px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi pe-none me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4">Sidebar</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    AddressBook
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    NoteBook
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    File Storage
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    The News
+                </a>
+            </li>
+        </ul>
+        <hr>
+    </div>
 
-<div class="container-fluid m-50 p-50" >
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-primary">Left</button>
-      <button type="button" class="btn btn-primary">Middle</button>
-      <button type="button" class="btn btn-primary">Right</button>
+    <div class="flex flex-column flex-shrink-9">
+        <h3>CONTENT</h3>
+        {% block content %}
+        {% endblock %}
     </div>
 </div>
 
-<div class="row g-100 m-10">
-  <div class="col-sm-6 col-md-8">.col-sm-6 .col-md-8</div>
-  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-</div>
-
+</main>
 
 
 <!--<main class="template p-5 m-5" role="main">
