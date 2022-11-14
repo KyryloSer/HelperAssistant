@@ -1,0 +1,59 @@
+{% extends 'addressbookapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<style type="text/css">
+.blok {
+  max-height: 300px;
+  background: rgb(211, 211, 211);
+  color: rgb(0, 0, 0);
+  overflow-y: auto;
+  margin: 20px 0;
+}
+</style>
+
+{% block main_title %}
+Подробнее об  {{contact.name}}
+{% endblock %}
+<td>
+
+</td>
+
+<a href='{% url "edit-contact" contact.pk %}'>
+  <button type="button" class="btn btn-outline-primary">Изменить данные контакта </button>
+</a>
+
+<table class="table">
+  <tr> 
+    <td>Имя</td>
+    <td>{{contact.name}}</td>
+  </tr>
+  <tr>
+    <td> День рождения </td>
+    <td>{{contact.birthday}}</td>
+  </tr>
+  <tr>
+    <td> Email </td>
+    <td>{{contact.email}}</td>
+  </tr>
+  <tr>
+    <td> Телефоны </td>
+    <td>
+    {% for phone in phones %}
+      <span> {{phone.phone}}; </span>
+    {%endfor%}
+    </td>
+  </tr>
+  <tr>
+    <td> Заметки </td>
+    <td>{{contact.description}}</td>
+  </tr>
+</table>
+
+
+  <form action="{% url 'delete-contact' contact.pk %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Удалить контакт</button>
+  </form>
+
+{% endblock %}

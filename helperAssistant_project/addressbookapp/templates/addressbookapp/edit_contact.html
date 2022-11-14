@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<form action="{% url 'addressbook:edit-contact' abonent.pk  %}" method='post'>
+    {% csrf_token %}
+
+    <table class="table">
+        <tr>
+
+            <td>
+                <label for="name">Полное имя</label>
+            </td>
+            <td>
+                <input type=text id="name" value='{{abonent.name}}' name="name">
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <label for="birthday">День рождения</label>
+            </td>
+            <td>
+                <input type='date' id="birthday" value='{{abonent.birthday.isoformat}}' name="birthday">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="address">Адрес</label>
+            </td>
+            <td>
+                <input id="address" value='{{abonent.address}}' size=60 name="address">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="phone">Телефоны</label>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        {% for phone in phones %}
+                        <td>
+                            <input id="phone" value='{{phone.phone}}' size=15 name="phone">
+                        </td>
+                        {% endfor %}
+                        <td>
+                            <label for="new_phone">Добавить телефон</label>
+                        </td>
+                        <td>
+                            <input id="new_phone" size=15 name="new_phone">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <label for="email">Emails</label>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        {% for email in emails %}
+                        <td>
+                            <input id="email" value='{{email.email}}' size=30 name="email">
+                        </td>
+                        {% endfor %}
+                        <td>
+                            <label for="new_email">Добавить email</label>
+                        </td>
+                        <td>
+                            <input id="new_email" size=30 name="new_email">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <label for="note">Заметка</label>
+            </td>
+            <td>
+                <input id="note" name="note" size=80>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label for="tag">Тэги</label>
+            </td>
+
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <input id="tag" list='tags' name="tag" size=10>
+                            <datalist id='tags'>
+                                {%for el in tags%}
+                                <option value={{el}}>{{el}}</option>
+
+                                {%endfor%}
+                            </datalist>
+                        </td>
+                        <td>
+                            <input id="tag" list='tags' name="tag" size=10>
+                            <datalist id='tags'>
+                                {%for el in tags%}
+                                <option value={{el}}>{{el}}</option>
+
+                                {%endfor%}
+                            </datalist>
+                        </td>
+                        <td>
+                            <input id="tag" list='tags' name="tag" size=10>
+                            <datalist id='tags'>
+                                {%for el in tags%}
+                                <option value={{el}}>{{el}}</option>
+
+                                {%endfor%}
+                            </datalist>
+                        </td>
+                    </tr>
+                </table>
+        </tr>
+    </table>
+    <input class="btn btn-success" type=submit>
+</form>
+
+{% endblock %}

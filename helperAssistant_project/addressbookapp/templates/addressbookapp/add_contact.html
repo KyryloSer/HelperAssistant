@@ -1,0 +1,52 @@
+{% extends 'addressbookapp/base.html' %}
+{% load static %}
+
+{% block main_title %}
+    Добавить абонента
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'add-contact' %}" method='post'>
+    {% csrf_token %}
+
+    <div>
+        <ul>
+
+            <li class="mb-3">
+                <label for="name">Полное имя</label>
+                <input id="name" name="name">
+            </li>
+
+            <li class="mb-3">
+                <label for="birthday">День рождения</label>
+                <input type='date' id="birthday" name="birthday">
+            </li>
+            <li class="mb-3">
+                <label for="email">Email</label>
+                <input id="email" name="email">
+            </li>
+
+             <li class="mb-3">
+                <label for="description">Описание</label>
+                <input id="description" name="description">
+
+            </li>
+
+            <li class="mb-3">
+                <label for="phone">Телефоны</label>
+                <input id="phone" name="phone">
+                <input id="phone" name="phone">
+                <input id="phone" name="phone">
+            </li>
+
+                </datalist>
+            </li>
+        </ul>
+
+        <input type="submit" id='submit' class="btn btn-success" value="Submit">
+
+    </div>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'addressbookapp/base.html' %}
+{% load static %}
+
+{% block main_title %}
+    Список контактов
+{% endblock %}
+
+{% block content %}
+<style>
+    label,
+    input {
+        display: block;
+    }
+
+    span.helptext {
+        display: none;
+    }
+
+</style>
+<div class="mb-3">
+<a href="{% url 'add-contact' %}">
+    <button type="button" class="btn btn-outline-primary">
+        Добавить контакт
+    </button>
+</a>
+<a href=" {% url 'find-contacts' %}">
+    <button type="button" class="btn btn-outline-primary">
+        Найти контакт
+    </button>
+</a>
+</div>
+
+{% include "addressbookapp/abonent_list.html" %}
+{% endblock %}
