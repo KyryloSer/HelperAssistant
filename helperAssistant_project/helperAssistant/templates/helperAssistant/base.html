@@ -32,17 +32,25 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+         {% if user.is_authenticated %}
+        <ul class="navbar-nav ml-auto">
+            <li class="navbar-brand">
+                Welcome <a class="navbar-brand">{{ user.username }}!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logoutuser' %}">Log out</a>
+            </li>
+            </ul>
+            {% else %}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
+                <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Registration</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Log out</a>
+                <a class="nav-link" href="{% url 'registration' %}">Registration</a>
             </li>
         </ul>
+        {% endif %}
     </div>
 </nav>
 </header>
@@ -103,10 +111,7 @@
 </main>
 
 
-<!--<main class="template p-5 m-5" role="main">
-    {% block content %}
-    {% endblock %}
-</main>-->
+
 
 
 
