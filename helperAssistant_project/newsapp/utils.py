@@ -20,16 +20,32 @@ def get_category():
     return category_dict
 
 
-def get_news():
-    response = requests.get('https://www.unian.ua/', headers=HEADERS).text
+def get_news(source='https://www.unian.ua/') -> list[dict]:
+    response = requests.get(source, headers=HEADERS).text
     soup = BeautifulSoup(response, 'lxml')
     news_list = soup.find(class_="newsfeed__list").find_all('a')
-    news_dict = {}
+    news_content = []
     for news in news_list:
-        title = news.text.strip()
-        link = news.get('href')
-        news_dict[title] = link
-    return news_dict
+        try:
+            news_dict = {}
+            title = news.text.strip()
+            if 20 < len(title) < 200:
+                news_dict['title'] = title
+                link = news.get('href')
+                response = requests.get(link, headers=HEADERS).text
+                soup = BeautifulSoup(response, 'lxml')
+                article = soup.find('div', class_="article-text").find_all('p')
+                content = ''
+                for art in article:
+                    content += art.text.strip() + '\n'
+                news_dict['content'] = content.strip()
+                time_ = soup.find('div', class_="article__info-item")
+                time_created = time_.text.strip()
+                news_dict['time_created'] = time_created
+                news_content.append(news_dict)
+        except Exception as err:
+            print(f'[ERROR] {err}')
+    return news_content
 
 
 if __name__ == '__main__':

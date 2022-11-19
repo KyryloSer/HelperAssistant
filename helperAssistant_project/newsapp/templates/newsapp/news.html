@@ -5,7 +5,7 @@
         <ul class="nav nav-pills flex-column mb-auto">
             {% for k, v in category_dict.items %}
             <li class="nav-item">
-                <a href="{{ v }}" class="nav-link" aria-current="page">
+                <a href="{% url v %}" class="nav-link" aria-current="page">
                     {{ k }}
                 </a>
             </li>
@@ -14,14 +14,18 @@
         <br>
     </div>
     <div class="d-flex flex-column col-10 flex-shrink-10">
-        {% for k, v in news_dict.items %}
-        <h4>{{ k }}</h4>
-        <h5>{{ v }}</h5>
-        {% endfor %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for news in news_content %}
+            <div class="col">
+                <div class="card text-dark bg-light border-success h-100 mb-3">
+                    <div class="card-body">
+                        <p class="card-text">{{ news.title }}</p>
+                        <p class="card-text"><small class="text-muted">{{ news.time_created }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
-
-
-
-
 {% endblock %}
