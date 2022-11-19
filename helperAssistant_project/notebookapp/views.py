@@ -8,11 +8,11 @@ from .forms import TagForm, NoteForm
 
 
 # Create your views here.
-def main(request):
+def start(request):
     notes = []
     if request.user.is_authenticated:
         notes = Note.objects.filter(user_id=request.user).all()
-    return render(request, 'notebookapp/note.html', {"notes": notes})
+    return render(request, 'notebookapp/note_start.html', {"notes": notes})
 
 
 @login_required
@@ -30,7 +30,7 @@ def tag(request):
             tag = form.save(commit=False)
             tag.user_id = request.user
             tag.save()
-            return redirect(to='main')
+            return redirect(to='start')
         except ValueError as err:
             return render(request, 'notebookapp/tag.html', {'form': TagForm(), 'error': err})
         except IntegrityError as err:
@@ -52,7 +52,7 @@ def note(request):
             choice_tags = Tag.objects.filter(name__in=list_tags, user_id=request.user)  # WHERE name in []
             for tag in choice_tags.iterator():
                 new_note.tags.add(tag)
-            return redirect(to='main')
+            return redirect(to='start')
         except ValueError as err:
             return render(request, 'notebookapp/note.html', {"tags": tags, 'form': NoteForm(), 'error': err})
 
@@ -62,11 +62,11 @@ def note(request):
 @login_required
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id, user_id=request.user).update(done=True)
-    return redirect('main')
+    return redirect('start')
 
 
 @login_required
 def delete_note(request, note_id):
     note = Note.objects.get(pk=note_id, user_id=request.user)
     note.delete()
-    return redirect('main')
+    return redirect('start')
