@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Phone, Contact, PhoneToContact
+from .models import Contact, Phone, Email
 
 # Register your models here.
 admin.site.register(Phone)
 admin.site.register(Contact)
-admin.site.register(PhoneToContact)
+admin.site.register(Email)

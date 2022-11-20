@@ -34,16 +34,23 @@
   </tr>
   <tr>
     <td> Email </td>
-    <td>{{contact.email}}</td>
+
+    <td> {{email.email}}; </td>
   </tr>
   <tr>
     <td> Телефоны </td>
     <td>
-    {% for phone in phones %}
+    {% for phone in phone %}
       <span> {{phone.phone}}; </span>
     {%endfor%}
     </td>
   </tr>
+
+  <tr>
+    <td> Address </td>
+    <td>{{contact.address}}</td>
+  </tr>
+
   <tr>
     <td> Заметки </td>
     <td>{{contact.description}}</td>

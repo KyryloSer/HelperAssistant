@@ -1,16 +1,16 @@
-{% extends 'base.html' %}
-{% load static %}
 
-{% block main_title %}Список ближайших именинников {% endblock %}
-{% block content %}
-<table class="table">
-{% for abonent in abonents%}
+<h5> Список ближайших именинников: </h5>
 
-<tr>
-    <td><a href='{% url "addressbook:detail" abonent.pk %}'><h5>{{ abonent.name}}</h5></a></td>
-    <td><a href='{% url "addressbook:detail" abonent.pk %}'><h5>{{abonent.str_bd}}</h5></a></td>
-</tr>
+
+
+<ul>
+    {% for contact in object_list %}
+    <li>
+
+        {{ contact.name }}, {{ contact.birthday }}, {{ contact.address }}, {{ contact.description }}, {{contact.phone}},
+        {{contact.email}}
+    </li>
+</ul>
 
 {% endfor%}
 </table>
-{% endblock %}

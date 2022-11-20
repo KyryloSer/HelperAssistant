@@ -1,0 +1,9 @@
+<h1>Search Results</h1>
+
+<ul>
+  {% for contact in object_list %}
+    <li>
+      {{ contact.name }}, {{ contact.birthday }}, {{ contact.address }}, {{ contact.description }}, {{contact.phone}}, {{contact.email}}
+    </li>
+  {% endfor %}
+</ul>
