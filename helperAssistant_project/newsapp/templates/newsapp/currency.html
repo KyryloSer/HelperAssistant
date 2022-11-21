@@ -14,14 +14,37 @@
         <br>
     </div>
     <div class="d-flex flex-column col-10 flex-shrink-10">
-        <div class="container">
-            {% for cur_dict in exchange_rate %}
-                <h4>Currency: {{ cur_dict.ccy }}</h4>
-                <h4>Currency: {{ cur_dict.base_ccy }}</h4>
-                <h4>Buy: {{ cur_dict.buy }}</h4>
-                <h4>Sale: {{ cur_dict.sale }}</h4>
-            {% endfor %}
+        <div class="container-center">
+            <h1>Курс валюти в Україні на {{ current_date }}</h1>
+            <div class="table-responsive">
+                <table class="table table-success table-striped-columns table-bordered align-middle">
+                    <thead>
+                    <tr class="align-middle">
+                        <th scope="col">Currency</th>
+                        <th scope="col">Buy</th>
+                        <th scope="col">Sale</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cur_dict in exchange_rate %}
+                    <tr class="align-middle">
+                        <td>{{ cur_dict.ccy }}</td>
+                        <td>{{ cur_dict.buy }}</td>
+                        <td>{{ cur_dict.sale }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
+
+{% for cur_dict in exchange_rate %}
+
+<h4>Currency: {{ cur_dict.ccy }}</h4>
+<h4>Currency: {{ cur_dict.base_ccy }}</h4>
+<h4>Buy: {{ cur_dict.buy }}</h4>
+<h4>Sale: {{ cur_dict.sale }}</h4>
+{% endfor %}

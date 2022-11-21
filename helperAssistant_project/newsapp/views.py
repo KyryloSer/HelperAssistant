@@ -1,5 +1,5 @@
 import pickle
-
+import datetime
 import requests
 from django.shortcuts import render, redirect
 from .utils import get_news
@@ -72,4 +72,7 @@ def news_fuel(request):
 def news_currency(request):
     response_api = requests.get('https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5')
     exchange_rate = response_api.json()
-    return render(request, 'newsapp/currency.html', {'category_dict': category_dict, 'exchange_rate': exchange_rate})
+    current_date_dt = datetime.date.today()
+    current_date = current_date_dt.strftime('%d.%m.%Y')
+    return render(request, 'newsapp/currency.html', {'category_dict': category_dict, 'exchange_rate': exchange_rate,
+                                                     'current_date': current_date})
