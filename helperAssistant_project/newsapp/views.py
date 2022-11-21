@@ -1,5 +1,6 @@
 import pickle
 
+import requests
 from django.shortcuts import render, redirect
 from .utils import get_news
 from .scraper.scraper.spiders.fuel_parser import file, main as fuel_parser
@@ -59,7 +60,7 @@ def news_techno(request):
 
 def news_weather(request):
     pass
-    return render(request, 'newsapp/news.html', {'category_dict': category_dict})
+    return render(request, 'newsapp/weather.html')
 
 
 def news_fuel(request):
@@ -69,5 +70,6 @@ def news_fuel(request):
 
 
 def news_currency(request):
-    pass
-    return render(request, 'newsapp/news.html', {'category_dict': category_dict})
+    response_api = requests.get('https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5')
+    exchange_rate = response_api.json()
+    return render(request, 'newsapp/currency.html', {'category_dict': category_dict, 'exchange_rate': exchange_rate})
