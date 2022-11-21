@@ -23,7 +23,7 @@ class ContactDetailView(DetailView):
 
 class BirthdayView(ListView ):
     model = Contact
-    template_name = 'addressbookapp/birthdays.html'
+    template_name = 'birthdays.html'
 
     def get_queryset(self):
         print('BIRTHDAYfunc')
@@ -52,6 +52,7 @@ class BirthdayView(ListView ):
         print(result)
         return result
 
+
 class SearchResultsView(ListView):
     model = Contact
     template_name = 'addressbookapp/search_results.html'
@@ -73,7 +74,7 @@ class SearchResultsView(ListView):
 
 
 def main(request):
-    return render(request, 'addressbookapp/home.html', {})
+    return render(request, 'home.html', {})
 
 
 def create_phones(contact: Contact, out_phones):
