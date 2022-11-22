@@ -1,0 +1,8 @@
+{% extends "newsapp/base.html" %}
+{% block content %}
+<h2>Cloudinary Files</h2>
+{% for file in files %}
+<h2>{{file.title}}</h2>
+<img src="{{file.path.url}}" width="200px">
+{% endfor %}
+{% endblock %}

@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+import cloudinary  # File by Ihor
+import cloudinary.uploader  # File by Ihor
+import cloudinary.api  # File by Ihor
+import cloudinary_storage  # File by Ihor
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +45,8 @@ INSTALLED_APPS = [
     'newsapp',
     'notebookapp',
     'filestorageapp',
+    'cloudinary',  # File by Ihor
+    'cloudinary_storage',  # File by Ihor
 ]
 
 MIDDLEWARE = [
@@ -58,7 +64,7 @@ ROOT_URLCONF = 'helperAssistant.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'filestorageapp/templates/', 'filestorageapp'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,14 +85,21 @@ WSGI_APPLICATION = 'helperAssistant.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kwuiijrr',
-        'USER': 'kwuiijrr',
-        'PASSWORD': '1V70tUgoYVwVX7N9RBa1wo-Vdise8qWp',
-        'HOST': 'mouse.db.elephantsql.com',
-        'PORT': 5432
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db-file.sqlite3',
     }
-}
+}  # Test debug databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'kwuiijrr',
+#         'USER': 'kwuiijrr',
+#         'PASSWORD': '1V70tUgoYVwVX7N9RBa1wo-Vdise8qWp',
+#         'HOST': 'mouse.db.elephantsql.com',
+#         'PORT': 5432
+#     }
+# }
 
 
 # Password validation
@@ -129,3 +142,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/HelperAssistant/'  # File by Ihor
+
+cloudinary.config(
+  cloud_name = "diwn0phz8",
+  api_key = "542398785748177",
+  api_secret = "zizGw3d3bw1_JCXGyoo2Ja1ypwQ"
+)  # File by Ihor
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': "diwn0phz8",
+    'API_KEY': "542398785748177",
+    'API_SECRET': "zizGw3d3bw1_JCXGyoo2Ja1ypwQ"
+}  # File by Ihor
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'  # File by Ihor
