@@ -1,10 +1,16 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic import ListView
+
 from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
+
+items_note = ['Date', 'Tags']
 
 
 # Create your views here.
@@ -57,6 +63,45 @@ def note(request):
             return render(request, 'notebookapp/note.html', {"tags": tags, 'form': NoteForm(), 'error': err})
 
     return render(request, 'notebookapp/note.html', {"tags": tags, 'form': NoteForm()})
+
+
+class FindView(ListView):
+    model = Note
+    template_name = 'notebookapp/find_note.html'
+
+    def get_queryset(self, **kwargs):
+        notes = []
+        print("123")
+        if self.request.method == 'GET':
+            select = self.request.GET.get('q')
+            note = Note.objects.filter(
+                Q(user_id=self.request.user, tags__name__icontains=select) | Q(user_id=self.request.user,
+                                                                               name__icontains=select)).all()
+            notes.append(note)
+        return notes
+
+
+@login_required
+def find_note_rend(request):
+    query = request.GET.get('q')
+    print(query)
+    return redirect('find_note', query)
+
+
+@login_required
+def find_note(request, query):
+    notes = []
+    # if 'q' in request.GET['q']:
+    #     q = request.GET['q']
+    if request.method == 'GET':
+        # select = request.POST.get('q')
+        print(query)
+        note = Note.objects.filter(
+            Q(user_id=request.user, tags__name__icontains=query) | Q(user_id=request.user, name__icontains=query)).all()
+        notes.append(note)
+        print(note)
+        # notes = Note.objects.filter(user_id=request.user).all()
+        return render(request, 'notebookapp/find_note.html', {'notes': notes})
 
 
 @login_required
