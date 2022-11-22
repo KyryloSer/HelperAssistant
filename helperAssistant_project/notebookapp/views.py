@@ -66,21 +66,21 @@ def note(request):
 
     return render(request, 'notebookapp/note.html', {"tags": tags, 'form': NoteForm()})
 
-
-class FindView(ListView):
-    model = Note
-    template_name = 'notebookapp/find_note.html'
-
-    def get_queryset(self, **kwargs):
-        notes = []
-        print("123")
-        if self.request.method == 'GET':
-            select = self.request.GET.get('q')
-            note = Note.objects.filter(
-                Q(user_id=self.request.user, tags__name__icontains=select) | Q(user_id=self.request.user,
-                                                                               name__icontains=select)).all()
-            notes.append(note)
-        return notes
+#
+# class FindView(ListView):
+#     model = Note
+#     template_name = 'notebookapp/find_note.html'
+#
+#     def get_queryset(self, **kwargs):
+#         notes = []
+#         print("123")
+#         if self.request.method == 'GET':
+#             select = self.request.GET.get('q')
+#             note = Note.objects.filter(
+#                 Q(user_id=self.request.user, tags__name__icontains=select) | Q(user_id=self.request.user,
+#                                                                                name__icontains=select)).all()
+#             notes.append(note)
+#         return notes
 
 
 # @login_required
