@@ -83,11 +83,11 @@ class FindView(ListView):
         return notes
 
 
-@login_required
-def find_note_rend(request):
-    query = request.GET.get('q')
-    print(query)
-    return redirect('find_note', {'query':query})
+# @login_required
+# def find_note_rend(request):
+#     query = request.GET.get('q')
+#     print(query)
+#     return redirect('find_note', {'query':query})
 
 
 @login_required
