@@ -31,26 +31,33 @@ class BirthdayView(ListView ):
         end = today + timedelta(days=7)
         today = today.strftime('%m-%d').split('-')
         end_birth = end.strftime('%m-%d').split('-')
-        print('DATE OF END', end_birth)
-        end_month = end_birth[0]
-        end_day = end_birth[1]
 
         contact = Contact.objects.all()
         result = []
         for con in contact:
-            print(con.birthday)
             con_birth = con.birthday.strftime('%m-%d').split('-')
             cont_month = con_birth[0]
-            print(cont_month)
             cont_day = con_birth[1]
-            print(cont_day)
 
             if (int(cont_month) >= int(today[0]) and int(cont_day) >= int(today[1])) \
-                    and (int(cont_month) <= int(end_month) and int(cont_day) <= int(end_day)):
+                    and (int(cont_month) <= int(end_birth[0]) and int(cont_day) <= int(end_birth[1])):
                 result.append(con)
-                print(result)
+
         print(result)
         return result
+
+
+class AllView(ListView ):
+    model = Contact, Phone, Email
+    template_name = 'addressbook_home.html'
+
+    def get_queryset(self):
+        contact = Contact.objects.all()
+        phone = Phone.objects.all()
+        email = Email.objects.all()
+        return contact
+
+
 
 
 class SearchResultsView(ListView):
@@ -73,8 +80,7 @@ class SearchResultsView(ListView):
             return object_list_3
 
 
-def main(request):
-    return render(request, 'home.html', {})
+
 
 
 def create_phones(contact: Contact, out_phones):
@@ -172,42 +178,20 @@ def edit_contact(request, pk):
     return render(request, 'addressbookapp/edit_contact.html', context)
     # return redirect(reverse('detail', kwargs={'pk': context['contact'].id}))
 
-    #
 
 
 # @login_required
 def find_contacts(request):
     query = request.GET.get('q')
-
+    print(query)
     pk = Contact.objects.filter(Q(name__icontains=query))[0].id
-    # print(contact_id)
+    print(pk)
     return redirect('edit-contact', pk)
 
-#
-# def birthdays(request):
-#     print('BIRTHDAYfunc')
-#     today = datetime.now()
-#     end = today + timedelta(days=7)
-#     today = today.strftime('%m-%d').split('-')
-#     end_birth = end.strftime('%m-%d').split('-')
-#     print('DATE OF END',end_birth)
-#     end_month = end_birth[0]
-#     end_day = end_birth[1]
-#
-#     contact = Contact.objects.all()
-#     result = []
-#     for con in contact:
-#         print(con.birthday)
-#         con_birth = con.birthday.strftime('%m-%d').split('-')
-#         cont_month = con_birth[0]
-#         print(cont_month)
-#         cont_day = con_birth[1]
-#         print(cont_day)
-#
-#         if (int(cont_month) >= int(today[0]) and int(cont_day) >= int(today[1]))\
-#                 and (int(cont_month) <= int(end_month) and int(cont_day) <= int(end_day)):
-#             result.append(con)
-#             print(result[0].name)
-#
-#         return redirect(reverse(BirthdayView, args=result))
-#
+
+def main(request):
+    phones = Phone.objects.all()
+    # phones = Phone.objects.all()
+    # emails = Email.objects.all() 'phones': phones, 'email': emails}
+
+    return render(request, 'addressbookapp/addressbook_home.html', {'phones': phones})

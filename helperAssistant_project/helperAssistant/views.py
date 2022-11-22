@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def main(request):
-    return render(request, 'helperAssistant/index.html', {})
+    return render(request, 'index.html', {})
 
 
 def registration(request):
@@ -39,14 +39,6 @@ def loginuser(request):
         else:
             login(request, user)
             return redirect('main')
-
-
-# def addressbookapp(request):
-#
-#     views(request)
-#     return render(request, 'addressbookapp/home.html', {})
-
-
 
 def logoutuser(request):
     logout(request)

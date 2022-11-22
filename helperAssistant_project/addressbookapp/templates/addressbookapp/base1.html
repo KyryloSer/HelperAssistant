@@ -133,3 +133,90 @@
 ></script>
 </body>
 </html>
+
+
+
+
+
+
+<!-- Modal 1-->
+<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">Edit
+    contact
+</button>
+
+<form class="d-flex" role="search" action="{% url 'search_results' %}" method="get">
+
+    <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio1" name="optradio" value="contact_box"
+               checked>
+        Name
+        <label class="form-check-label" for="radio1"></label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" id="radio2" name="optradio" value="phone_box">Phone
+        <label class="form-check-label" for="radio2"></label>
+        <br>
+        <div class="form-check">
+            <input type="radio" class="form-check-input" id="radio3" name="optradio" value="email_box">Email
+            <label class="form-check-label" for="radio3"></label>
+
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+    </div>
+
+
+    </style>
+    <div class="mb-3">
+        <a href="{% url 'add-contact' %}">
+            <button type="button" class="btn btn-outline-primary">
+                Добавить контакт
+            </button>
+        </a>
+
+        <form action="{% url 'search_results' %}" method="get">
+            <input name="q" type="text" placeholder="Search...">
+
+
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio1" name="optradio" value="contact_box" checked>Search
+                by name
+                <label class="form-check-label" for="radio1"></label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="radio2" name="optradio" value="phone_box">Search by
+                phone
+                <label class="form-check-label" for="radio2"></label>
+                <br>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="email_box">Search by
+                    email
+                    <label class="form-check-label" for="radio3"></label>
+
+                    <input type="submit" id='submit' class="btn btn-success" value="Search">
+                    </button>
+                </div>
+            </div>
+            <br>
+
+        </form>
+        </a>
+    </div>
+
+    <br>
+
+
+    <form action="{% url 'find-contacts' %}" method="get">
+        <input name="q" type="text" placeholder="Введите имя контакта для изменения...">
+
+        <input type="submit" id='submit2' class="btn btn-success" value="edit">
+    </form>
+
+
+    <br>
+    <div class="mb-3">
+        <a href="{% url 'birthdays' %}">
+            <button type="button" class="btn btn-outline-primary">
+                Список именинников
+            </button>
+        </a>

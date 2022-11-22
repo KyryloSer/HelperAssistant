@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -58,8 +57,13 @@ ROOT_URLCONF = 'helperAssistant.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant/templates/', 'helperAssistant'),
-                 os.path.join(BASE_DIR, 'addressbookapp/templates/', 'addressbookapp'),
+        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates'),
+                 os.path.join(BASE_DIR, 'addressbookapp', 'templates'),
+                 os.path.join(BASE_DIR, 'addressbookapp/templates', 'addressbookapp'),
+                 os.path.join(BASE_DIR, 'notebookapp/templates', 'notebookapp'),
+                 'helperAssistant/templates/',
+
+
 
                  ],
         'APP_DIRS': True,

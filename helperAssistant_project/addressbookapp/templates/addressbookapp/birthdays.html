@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
+{% block content %}
 <h5> Список ближайших именинников: </h5>
-
-
-
-<ul>
+<br>
+<table class="table">
+        <thead class="thread-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Birthday</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
     {% for contact in object_list %}
-    <li>
-
-        {{ contact.name }}, {{ contact.birthday }}, {{ contact.address }}, {{ contact.description }}, {{contact.phone}},
-        {{contact.email}}
-    </li>
-</ul>
-
-{% endfor%}
-</table>
+        <tbody>
+        <tr>
+            <th scope="row">{{ contact.id }}</th>
+            <td>{{ contact.name }}</td>
+            <td>{{contact.phone}}</td>
+            <td>{{contact.email}}</td>
+            <td>{{ contact.birthday }}</td>
+            <td>{{ contact.description }}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+{% endblock%}

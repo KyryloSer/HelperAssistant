@@ -25,5 +25,6 @@ urlpatterns = [
     path('login/', views.loginuser, name='loginuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
     path('addressbookapp/', include('addressbookapp.urls')),
+    path('start/', include('notebookapp.urls'))
 ]
 

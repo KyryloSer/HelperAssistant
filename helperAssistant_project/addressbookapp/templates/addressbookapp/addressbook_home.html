@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main_title %}
+Список контактов
+{% endblock %}
+
+{% block content %}
+
+<div class="btn-group btn-group-justified">
+
+    <a class="btn btn-primary" href="{% url 'add-contact' %}" role="button">+ ADD CONTACT</a>
+    <!--    <a class="btn btn-primary" href="" role="button">- DELETE CONTACT</a>-->
+    <a class="btn btn-primary" href="{% url 'birthdays' %}" role="button">Birthday list</a>
+
+    <!-- Modal 1-->
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">Edit
+        contact
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content start-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <form name="jksearch" action="{% url 'find-contacts' %}" target="_blank" onSubmit=>
+                        Enter name of contact to edit: <br/>
+                        {% csrf_token %}
+
+                        <input id="hiddenquery" type="hidden" name=""/>
+                        <input name="q" type="text" style="width: 200px" value=""/> <input type="submit"
+                                                                                           value="Search"/><br/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal 2-->
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal_2">Search
+    </button>
+
+    <div class="modal fade" id="myModal_2" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content start-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="jksearch" action="{% url 'search_results' %}" target="_blank" onSubmit=>
+                        {% csrf_token %}
+
+                        <input class="form-control me-3" name="q" type="search" placeholder="Search"
+                               aria-label="Search">
+
+                        <div class="container bgcont">
+
+                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="contact_box"
+                                   checked>Name
+
+                            <label class="form-check-label" for="radio1"></label>
+                            <br></br>
+                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="phone_box">Phone
+                            <label class="form-check-label" for="radio2"></label>
+                            <br></br>
+                            <input type="radio" class="form-check-input" id="radio3" name="optradio" value="email_box">Email
+                            <label class="form-check-label" for="radio3"></label>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal_2">Close</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Birthday</th>
+        <th scope="col">Description</th>
+        <th scope="col">Edit or Delete</th>
+
+
+    </tr>
+    </thead>
+    {% for phone in phones %}
+
+    <tbody>
+    <tr>
+        <th scope="row">{{ phone.contact.id }}</th>
+        <td>{{ phone.contact.name }}</td>
+        <td>{{phone.phone}}</td>
+
+        <td>{{phone.contact.email.email}}</td>
+        <td>{{ phone.contact.birthday }}</td>
+        <td>{{ phone.contact.description }}</td>
+        <td><a href="edit_contact/{{contact.id}}">Edit</a> | <a href="delete_contact/{{contact.id}}">Delete</a></td>
+
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}
