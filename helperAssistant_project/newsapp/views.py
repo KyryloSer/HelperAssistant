@@ -15,6 +15,7 @@ category_routes = {'Війна в Україні': 'https://www.unian.ua/war', '
                    'Світ': 'https://www.unian.ua/world', 'Політика': 'https://www.unian.ua/politics',
                    'Наука': 'https://www.unian.ua/science', 'Технології': 'https://www.unian.ua/techno'}
 
+cities_dict = {'Київ': '34/kiev', 'Хрьків': '150/harkov', '': '', '': '', '': '', '': '', '': '', '': '', '': '', '': '', '': '',}
 
 # Create your views here.
 def news_main(request):
@@ -59,8 +60,10 @@ def news_techno(request):
 
 
 def news_weather(request):
-    pass
-    return render(request, 'newsapp/weather.html')
+    if request.method == 'POST':
+        select = request.POST.get('comp_select')
+        print(select)
+    return render(request, 'newsapp/weather.html', {'category_dict': category_dict})
 
 
 def news_fuel(request):

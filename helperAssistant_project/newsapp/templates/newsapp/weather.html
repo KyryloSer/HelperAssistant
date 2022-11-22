@@ -1,13 +1,51 @@
+{% extends "helperAssistant/base.html" %}
+{% block content %}
+<div class="d-flex">
+    <div class="d-flex flex-column col-2 flex-shrink-2 p-3" style="width: 180px; height:90vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            {% for k, v in category_dict.items %}
+            <li class="nav-item">
+                <a href="{% url v %}" class="nav-link" aria-current="page">
+                    {{ k }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <br>
+    </div>
+    <div class="d-flex flex-column col-10 flex-shrink-10">
+        <h1>Прогноз погоди в Україні</h1>
+        <div class="container">
+            <!--<form>
+                <select name="cities">
+                    <option selected>--Оберіть місто--</option>
+                    <option>Київ</option>
+                    <option>Харьків</option>
+                    <option>Одеса</option>
+                </select>
+                <input type="submit" value="click">
+            </form>-->
+            <form class="form-inline" method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <!--<span class="input-group-addon">Please select</span>-->
+                        <select name="comp_select" class="selectpicker form-control">
+                            <option selected>--Оберіть місто--</option>
+                            <option value="Kyiv">Kyiv</option>
+                            <option value="Odessa">Odessa</option>
+                           <option value="Lviv">Lviv</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-default">Go</button>
+                </div>
+            </form>
+        </div>
 
-
-
-
-<style>
-        .meteo-informer {width: 88px;height: 24px;border-color: #FFC107;background-color: #2196F3;color: #2B2B2B;font-family: Arial, sans-serif} .meteo-informer__logo-part-1 {fill: #2B2B2B;}
-
-</style>
-<div id="meteo_informer_3fcbc97511b3f9b465c935780e267cb2"><p><a href="https://meteo.ua/ua/111/odessa">Погода в Одесі
-</a></p>
+    </div>
 </div>
-<script async type="text/javascript" charset="utf-8"
-        src="https://meteo.ua/informer-3fcbc97511b3f9b465c935780e267cb2"></script>
+{% endblock %}
+
+
+
+

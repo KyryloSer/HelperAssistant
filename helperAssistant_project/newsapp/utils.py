@@ -30,6 +30,8 @@ def get_news(source='https://www.unian.ua/') -> list[dict]:
             news_dict = {}
             title = news.text.strip()
             if 20 < len(title) < 200:
+                if title.startswith('оновлено'):
+                    title = title.replace('оновлено', '')
                 news_dict['title'] = title
                 link = news.get('href')
                 response = requests.get(link, headers=HEADERS).text
