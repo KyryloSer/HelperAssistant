@@ -2,7 +2,8 @@ import pickle
 import datetime
 import requests
 from django.shortcuts import render, redirect
-from .utils import get_news
+from .scraper.utils.utils import get_news
+from .scraper.utils.weather_utils import get_forecast
 from .scraper.scraper.spiders.fuel_parser import file, main as fuel_parser
 
 category_dict = {'Війна в Україні': 'news_war', 'Україна': 'news_society',
@@ -15,7 +16,9 @@ category_routes = {'Війна в Україні': 'https://www.unian.ua/war', '
                    'Світ': 'https://www.unian.ua/world', 'Політика': 'https://www.unian.ua/politics',
                    'Наука': 'https://www.unian.ua/science', 'Технології': 'https://www.unian.ua/techno'}
 
-cities_dict = {'Київ': '34/kiev', 'Хрьків': '150/harkov', '': '', '': '', '': '', '': '', '': '', '': '', '': '', '': '', '': '',}
+cities_dict = {'Київ': '34/kiev', 'Харьків': '150/harkov', 'Дніпро': '164/dnepr-dnepropetrovsk',
+               'Одеса': '111/odessa', 'Львів': '44/lvov'}
+
 
 # Create your views here.
 def news_main(request):
@@ -60,16 +63,21 @@ def news_techno(request):
 
 
 def news_weather(request):
+    forecast = get_forecast('34/kiev')
     if request.method == 'POST':
         select = request.POST.get('comp_select')
-        print(select)
-    return render(request, 'newsapp/weather.html', {'category_dict': category_dict})
+        forecast = get_forecast(select)
+    return render(request, 'newsapp/weather.html', {'category_dict': category_dict, 'cities_dict': cities_dict,
+                                                    'forecast': forecast})
 
 
 def news_fuel(request):
     with open(file, 'rb') as fh:
         data = pickle.load(fh)
-    return render(request, 'newsapp/fuel.html', {'category_dict': category_dict, "data": data})
+    current_date_dt = datetime.date.today()
+    current_date = current_date_dt.strftime('%d.%m.%Y')
+    return render(request, 'newsapp/fuel.html', {'category_dict': category_dict, "data": data,
+                  'current_date': current_date})
 
 
 def news_currency(request):
