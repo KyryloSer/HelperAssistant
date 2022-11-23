@@ -17,7 +17,8 @@ category_routes = {'Війна в Україні': 'https://www.unian.ua/war', '
                    'Наука': 'https://www.unian.ua/science', 'Технології': 'https://www.unian.ua/techno'}
 
 cities_dict = {'Київ': '34/kiev', 'Харьків': '150/harkov', 'Дніпро': '164/dnepr-dnepropetrovsk',
-               'Одеса': '111/odessa', 'Львів': '44/lvov'}
+               'Одеса': '111/odessa', 'Львів': '44/lvov', 'Полтава': '58/poltava', 'Херсон': '122/herson',
+               'Запоріжжя': '172/zaporoje', 'Вінниця': '71/vinnitsa'}
 
 
 # Create your views here.
