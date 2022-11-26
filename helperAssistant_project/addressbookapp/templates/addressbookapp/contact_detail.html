@@ -13,47 +13,53 @@
 </style>
 
 {% block main_title %}
+<br>
 Подробнее об  {{contact.name}}
+
 {% endblock %}
 <td>
 
 </td>
 
 <a href='{% url "edit-contact" contact.pk %}'>
+<br>
+
   <button type="button" class="btn btn-outline-primary">Изменить данные контакта </button>
 </a>
 
 <table class="table">
-  <tr> 
-    <td>Имя</td>
-    <td>{{contact.name}}</td>
-  </tr>
-  <tr>
-    <td> День рождения </td>
-    <td>{{contact.birthday}}</td>
-  </tr>
-  <tr>
-    <td> Email </td>
+  <br>
 
-    <td> {{email.email}}; </td>
+  <tr>
+    <td style = "background-color: black; color: white;  ">Повне ім'я</td>
+    <td style = "background-color: blue; color: white;  ">{{contact.name}}</td>
   </tr>
   <tr>
-    <td> Телефоны </td>
-    <td>
-    {% for phone in phone %}
+    <td style = "background-color: black; color: white;  "> День народження </td>
+    <td style = "background-color: blue; color: white;  ">{{contact.birthday}}</td>
+  </tr>
+  <tr>
+    <td style = "background-color: black; color: white;  "> Email </td>
+
+    <td style = "background-color: blue; color: white;  "> {{contact.emails.first.email}}; </td>
+  </tr>
+  <tr>
+    <td style = "background-color: black; color: white;  "> Телефони </td>
+    <td style = "background-color: blue; color: white;  ">
+    {% for phone in contact.phones.all %}
       <span> {{phone.phone}}; </span>
     {%endfor%}
     </td>
   </tr>
 
   <tr>
-    <td> Address </td>
-    <td>{{contact.address}}</td>
+    <td style = "background-color: black; color: white;  "> Address </td>
+    <td style = "background-color: blue; color: white;  ">{{contact.address}}</td>
   </tr>
 
   <tr>
-    <td> Заметки </td>
-    <td>{{contact.description}}</td>
+    <td style = "background-color: black; color: white;  "> Заметки </td>
+    <td style = "background-color: blue; color: white;  ">{{contact.description}}</td>
   </tr>
 </table>
 

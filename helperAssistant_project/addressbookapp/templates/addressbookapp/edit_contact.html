@@ -2,105 +2,94 @@
 {% block content %}
 {% load static %}
 
-<h4>Вы собираетесь изменить контакт: </h4>
+<h4>Ви збираєтесь змінити контакт: </h4>
 
 
-<form action="{% url 'edit-contact' contact.pk %}" method='post'>
+<action="{% url 'edit-contact' contact.pk %}" method='post'>
     {% csrf_token %}
+    <div class="card-body p-2">
 
-    <table class="table">
-        <tr>
+        <table class="row d-flex justify-content-center align-items-center">
+            <tr>
 
-            <td>
-                <label for="name">Полное имя</label>
-            </td>
-            <td>
-                <input type=text id="name" value='{{contact.name}}' name="name">
-            </td>
+                <td>
+                    <label class="form-label" for="name">Повне ім'я</label>
+                </td>
+                <td>
+                    <input class="form-control form-control-lg" type=text id="name" value='{{contact.name}}' name="name">
+                </td>
 
-        </tr>
-        <tr>
-            <td>
-                <label for="birthday">День рождения</label>
-            </td>
-            <td>
-                <input type='date' id="birthday" value='{{contact.birthday.isoformat}}' name="birthday">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="address">Адрес</label>
-            </td>
-            <td>
-                <input id="address" value='{{contact.address}}' size=60 name="address">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="phone">Телефоны</label>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        {% for phone in phones %}
-                        <td>
-                            <input id="phone" value='{{phone.phone}}' size=15 name="phone">
-                        </td>
-                        {% endfor %}
-                        <td>
-                            <label for="new_phone">Добавить телефон</label>
-                        </td>
-                        <td>
-                            <input id="new_phone" size=15 name="new_phone">
-                        </td>
-                    </tr>
-                </table>
-            </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="birthday">День народження</label>
+                </td>
+                <td>
+                    <input class="form-control form-control-lg" type='date' id="birthday" value='{{contact.birthday.isoformat}}' name="birthday">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="address">Адрес</label>
+                </td>
+                <td>
+                    <input class="form-control form-control-lg" id="address" value='{{contact.address}}' size=60 name="address">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="phone">Телефони</label>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            {% for phone in phones %}
+                            <td>
+                                <input class=" form-control" id="phone" value='{{phone.phone}}' size=15 name="phone">
+                            </td>
+                            {% endfor %}
 
-        </tr>
+                        </tr>
+                    </table>
+                </td>
 
-        <tr>
-            <td>
-                <label for="email">Emails</label>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        {% for email in emails %}
-                        <td>
-                            <input id="email" value='{{email.email}}' size=30 name="email">
-                        </td>
-                        {% endfor %}
-                        <td>
-                            <label for="new_email">Добавить email</label>
-                        </td>
-                        <td>
-                            <input id="new_email" size=30 name="new_email">
-                        </td>
-                    </tr>
-                </table>
-            </td>
+            </tr>
 
-        </tr>
-        <tr>
-            <td>
-                <label for="description">Заметка</label>
-            </td>
-            <td>
-                <input id="description" value='{{contact.description}}' name="description" size=80>
-            </td>
-            <td>
+            <tr>
+                <td>
+                    <label for="email">Email</label>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            {% for email in emails %}
+                            <td>
+                                <input class="form-control form-control-lg" id="email" value='{{email.email}}' size=30 name="email">
+                            </td>
+                            {% endfor %}
 
-            </td>
-        </tr>
-            </table>
-    <input class="btn btn-success" type=submit>
-</form>
+                        </tr>
+                    </table>
+                </td>
 
+            </tr>
+            <tr>
+                <td>
+                    <label for="description">Опис</label>
+                </td>
+                <td>
+                    <input class="form-control form-control-lg" id="description" value='{{contact.description}}' name="description" size=80>
+                </td>
+                <td>
 
+                </td>
+            </tr>
+        </table>
+        <input class="btn btn-success" type=submit>
+        
 
-
-
+    </div>
+</div>
 
 
 {% endblock %}

@@ -1,13 +1,23 @@
 from datetime import datetime, timedelta
+from itertools import chain
+
+from django.core import paginator
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
+from django.core.paginator import Paginator
+
 
 from .forms import ContactForm, ContactEditForm
 from .models import Contact, Phone, Email
+
+
+from faker import Faker
+
+faker = Faker('uk_UA')
 
 
 class ContactDetailView(DetailView):
@@ -26,13 +36,12 @@ class BirthdayView(ListView ):
     template_name = 'birthdays.html'
 
     def get_queryset(self):
-        print('BIRTHDAYfunc')
         today = datetime.now()
         end = today + timedelta(days=7)
         today = today.strftime('%m-%d').split('-')
         end_birth = end.strftime('%m-%d').split('-')
 
-        contact = Contact.objects.all()
+        contact = Contact.objects.filter(owner_id=self.request.user.id)
         result = []
         for con in contact:
             con_birth = con.birthday.strftime('%m-%d').split('-')
@@ -40,10 +49,8 @@ class BirthdayView(ListView ):
             cont_day = con_birth[1]
 
             if (int(cont_month) >= int(today[0]) and int(cont_day) >= int(today[1])) \
-                    and (int(cont_month) <= int(end_birth[0]) and int(cont_day) <= int(end_birth[1])):
+                    and (int(cont_month) <= int(end_birth[0]) and int(cont_day) <= int(end_birth[1])) and (int(cont_month) <= int(end_birth[0]) and int(cont_day) >= int(end_birth[1])):
                 result.append(con)
-
-        print(result)
         return result
 
 
@@ -58,29 +65,17 @@ class AllView(ListView ):
         return contact
 
 
-
-
 class SearchResultsView(ListView):
     model = Contact
     template_name = 'addressbookapp/search_results.html'
 
     def get_queryset(self):  # новый
-        check_values = self.request.GET.get("optradio")
-
-        print(check_values)
         query = self.request.GET.get('q')
-        if check_values == "contact_box":
-            object_list_1 = (Contact.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)))
-            return object_list_1
-        elif check_values == "phone_box":
-            object_list_2 = Phone.objects.filter(phone__icontains=query)
-            return object_list_2
-        elif check_values == "phone_box":
-            object_list_3 = Email.objects.filter(email__icontains=query)
-            return object_list_3
-
-
-
+        object_list_1 = (Contact.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)))
+        object_list_2 = Phone.objects.filter(phone__icontains=query)
+        object_list_3 = Email.objects.filter(email__icontains=query)
+        object_list = chain(object_list_3,object_list_2,object_list_1)
+        return object_list
 
 
 def create_phones(contact: Contact, out_phones):
@@ -91,9 +86,9 @@ def create_phones(contact: Contact, out_phones):
 
 def create_email(contact: Contact, email):
     if email:
-        Email.objects.create(contact=contact, email=email)
+        Email.objects.create(contact=contact, email=str(email))
 
-
+@login_required
 def add_contact(request):
     if request.method == 'POST':
         data = dict(request.POST)
@@ -101,7 +96,7 @@ def add_contact(request):
             return redirect(reverse('addressbookapp/add-contact'))
 
         contact = Contact.objects.create(
-            # owner_id=request.user.id,
+            owner_id=request.user.id,
             name=data['name'][0],
             birthday=data['birthday'][0],
             address=data['address'][0],
@@ -116,82 +111,94 @@ def add_contact(request):
     return render(request, 'addressbookapp/add_contact.html')
 
 
-# @login_required
+@login_required
 def delete_contact(request, pk):
     contact = Contact.objects.get(id=pk)
     contact.delete()
-    return redirect('main')
+    return redirect('addressbookapp_main')
 
 
-# @login_required
+@login_required
 def edit_contact(request, pk):
-    print("Edit", pk)
 
     if request.method == 'POST':
         data = dict(request.POST)
         print(data)
         try:
-            contact = Contact.objects.get(id=pk)
+            contact = Contact.objects.get(id=pk, owner_id=request.user.id,)
             if contact.name != str(data['name']):
-                contact.name = str(data['name'])
+                contact.name = str(data['name'][0])
 
             if contact.birthday != datetime.strptime(data['birthday'][0], '%Y-%m-%d'):
                 contact.birthday = datetime.strptime(data['birthday'][0], '%Y-%m-%d')
 
             if contact.address != str(data['address']):
-                contact.address = str(data['address'])
+                contact.address = str(data['address'][0])
 
-            if contact.description != str(data['description']):
-                contact.description = str(data['description'])
+            if contact.description != data['description']:
+                contact.description = str(data['description'][0])
 
             phone = Phone.objects.filter(contact_id=pk)
-            print(list(i.phone for i in phone)), data.get('phone', [])
-            if list(phone) != data['phone']:
-                print(list(phone), data.get('phone'))
 
-                print('PHONE')
+            if list(phone) != data['phone']:
                 phone.delete()
-                create_phones(contact, out_phones=(data.get('phone', []) + data.get('new_phone')))
+                create_phones(contact, out_phones=(data.get('phone')))
 
             email = Email.objects.filter(contact_id=pk)
             if list(email) != data.get('email'):
-                print(list(email), data.get('email'))
-
-                print('Email')
                 email.delete()
-                create_email(contact, email=(data.get('email', []) + data.get('new_email')))
+                create_email(contact, email=data.get('email')[0])
 
-            # form = ContactForm(request.POST)
-            # contact_form = form.save(commit=False)
-            # # tag.user_id = request.user
             contact.save()
-            return redirect(to='main')
+
+            return redirect('addressbookapp_main')
+
         except ValueError as err:
-            return render(request, 'addressbokapp/home.html', {'form': ContactForm(), 'error': err})
+            return render(request, 'addressbokapp/adressbook_home.html', {'form': ContactForm(), 'error': err})
         except IntegrityError as err:
-            return render('addressbokapp/home.html', {'form': ContactForm(), 'error': 'Contact must be unique!'})
+            return render('addressbokapp/adressbook_home.html', {'form': ContactForm(), 'error': 'Contact must be unique!'})
 
     context = dict()
     context['contact'] = Contact.objects.get(id=pk)
     context['phones'] = Phone.objects.filter(contact_id=pk)
     context['emails'] = Email.objects.filter(contact_id=pk)
     return render(request, 'addressbookapp/edit_contact.html', context)
-    # return redirect(reverse('detail', kwargs={'pk': context['contact'].id}))
 
 
-
-# @login_required
+@login_required
 def find_contacts(request):
     query = request.GET.get('q')
-    print(query)
-    pk = Contact.objects.filter(Q(name__icontains=query))[0].id
-    print(pk)
-    return redirect('edit-contact', pk)
+    try:
+        pk = Contact.objects.filter(Q(name__icontains=query, owner_id=request.user.id))[0].id
+        return redirect('edit-contact', pk)
+    except IndexError or ValueError:
+        return redirect('addressbookapp_main')
 
 
+@login_required
 def main(request):
-    phones = Phone.objects.all()
-    # phones = Phone.objects.all()
-    # emails = Email.objects.all() 'phones': phones, 'email': emails}
+    contacts = Contact.objects.filter(owner_id=request.user.id,).all()
 
-    return render(request, 'addressbookapp/addressbook_home.html', {'phones': phones})
+    paginat = Paginator(contacts, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginat.get_page(page_number)
+
+    return render(request, 'addressbookapp/addressbook_home.html', {"page_obj": page_obj})
+
+
+@login_required
+def add_fake_contact(request):
+    for i in range(50):
+        contact = Contact.objects.create(
+            owner_id=request.user.id,
+            name=faker.name(),
+            birthday=faker.date_between(start_date='-60y', end_date='-10y'),
+            address=faker.address(),
+            description="Fake note"
+        )
+
+        for i in range(3):
+            Phone.objects.create(contact=contact, phone=faker.phone_number())
+
+        Email.objects.create(contact=contact, email=faker.email())
+    return redirect('addressbookapp_main')

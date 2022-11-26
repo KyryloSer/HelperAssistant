@@ -62,6 +62,7 @@ TEMPLATES = [
                  os.path.join(BASE_DIR, 'addressbookapp/templates', 'addressbookapp'),
                  os.path.join(BASE_DIR, 'notebookapp/templates', 'notebookapp'),
                  'helperAssistant/templates/',
+                 os.path.join(BASE_DIR, 'templates'),
 
 
 

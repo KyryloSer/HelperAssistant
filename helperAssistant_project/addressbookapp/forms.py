@@ -23,7 +23,7 @@ class PhoneForm(forms.ModelForm):
 
 
 class EmailForm(forms.ModelForm):
-    phone = forms.IntegerField(label='Email')
+    email = forms.CharField(max_length = 100, label='Email')
 
     class Meta:
         model = Email
