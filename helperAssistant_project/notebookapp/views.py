@@ -1,3 +1,5 @@
+from itertools import groupby
+
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -9,8 +11,6 @@ from django.views.generic import ListView
 
 from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
-
-items_note = ['Date', 'Tags']
 
 
 # Create your views here.
@@ -82,36 +82,56 @@ class FindView(ListView):
 
 
 @login_required
-def find_note_rend(request):
-    query = request.GET.get('q')
-    print(query)
-    return redirect('find_note', query)
+def show_notes(request):
+    notes = []
+    if request.user.is_authenticated:
+        notes = Note.objects.filter(user_id=request.user).all()
+    return render(request, 'notebookapp/find_note.html', {"notes": notes})
 
 
 @login_required
-def find_note(request, query):
+@csrf_protect
+def find_note(request, filter):
     notes = []
-    # if 'q' in request.GET['q']:
-    #     q = request.GET['q']
     if request.method == 'GET':
-        # select = request.POST.get('q')
-        print(query)
+        search_value = request.GET.get('search_key')
         note = Note.objects.filter(
-            Q(user_id=request.user, tags__name__icontains=query) | Q(user_id=request.user, name__icontains=query)).all()
-        notes.append(note)
-        print(note)
-        # notes = Note.objects.filter(user_id=request.user).all()
-        return render(request, 'notebookapp/find_note.html', {'notes': notes})
+            Q(user_id=request.user, tags__name__icontains=search_value) | Q(user_id=request.user,
+                                                                            name__icontains=search_value)).all()
+        notes = list(note)
+        new_notes = [el for el, _ in groupby(notes)]
+        return render(request, 'notebookapp/find_note.html', {'notes': new_notes})
+
+
+@login_required
+def edit_note(request, note_id):
+    note = Note.objects.get(pk=note_id, user_id=request.user)
+    tags = Tag.objects.filter(user_id=request.user).all()
+    if request.method == 'POST':
+        try:
+            list_tags = request.POST.getlist('tags')
+            form = NoteForm(request.POST, instance=note)
+            new_note = form.save(commit=False)
+            new_note.user_id = request.user
+            new_note.save()
+            choice_tags = Tag.objects.filter(name__in=list_tags, user_id=request.user)
+            for tag in choice_tags.iterator():
+                new_note.tags.add(tag)
+            return redirect(to='start')
+        except ValueError as err:
+            return render(request, 'notebookapp/edit_note.html', {"tags": tags, 'form': NoteForm(), 'error': err})
+
+    return render(request, 'notebookapp/edit_note.html', {"tags": tags, 'form': NoteForm(instance=note)})
 
 
 @login_required
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id, user_id=request.user).update(done=True)
-    return redirect('start')
+    return redirect('show_notes')
 
 
 @login_required
 def delete_note(request, note_id):
     note = Note.objects.get(pk=note_id, user_id=request.user)
     note.delete()
-    return redirect('start')
+    return redirect('show_notes')
