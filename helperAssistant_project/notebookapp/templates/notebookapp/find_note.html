@@ -1,31 +1,67 @@
-{% extends "base.html" %}
+{% extends "notebookapp/base.html" %}
 
 {% block content %}
 
-<main class="container">
-{% for note in notes%}
-      <ul>
-        <li>
-          {%if not note.done%}
-          <a href="{% url 'detail' note.id %}" role="button" class="outline"
-            >{{note.name}}</a
-          >
-          <a href="{% url 'set_done' note.id %}" role="button">Mark Done</a>
-          <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
-            >Delete note</a
-          >
-          {% else %}
+<li><a class="btn btn-outline-info mx-1" href="{% url 'start' %}" role="button">Back</a></li>
+<div>
+        <div class="mb-1">
+            <form class="d-flex flex-row align-items-center flex-wrap" action="search">
+            <div class="input-group w-25">
+                <input id="colFormLabelEmail"
+                       class="form-control col-12 my-1 me-sm-2 w-auto"
+                       type="text"
+                       placeholder="name or tag"
+                       name="search_key"
+                />
+            </div>
+            <button class="btn btn-sm btn-outline-secondary " type="submit">Search</button>
+        </form>
+    </div>
+        <div class="row mb-3">
+            <h2>Your Notes</h2>
+        </div>
+        <div class="row">
+            {% for note in notes %}
+                <div>
+                    <div class="accordion" id="accordionExample">
+                        <div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>
+                                        <p>Tag: <small>
+                                            {{ note.tags.all|join:", " }}
+                                        </small></p>
+                                        {% if not note.done %}
+                                            <a href="{% url 'detail' note.id %}" role="button"
+                                               class="text-decoration-none"
+                                            ><p class="text-secondary">{{ note.created }}: </p>
+                                                <p><strong>{{ note.name }}</strong></p>
+                                                <p class="text-dark">{{ note.description }} </p>
+                                                <p>{{ note.status }} </p>
+                                            </a
+                                            >
+                                            <div class="btn-group">
+                                                <a class="btn btn-outline-success"
+                                                   href="{% url 'set_done' note.id %}">Mark Done</a>
+                                                <a class="btn btn-outline-info"
+                                                   href="{% url 'edit_note' note.id %}">Edit</a>
+                                                <a class="btn btn-outline-danger"
+                                                   href="{% url 'delete_note' note.id %}">Delete</a>
+                                            </div>
+                                        {% else %}
 
-          <a href="{% url 'detail' note.id %}" role="button" class="secondary"
-            ><s>{{note.name}}</s></a
-          >
-            <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
-            >Delete note</a
-          >
-          {% endif %}
-        </li>
-      </ul>
-      {% endfor %}
-        </main>
+                                            <a href="{% url 'detail' note.id %}" role="button" class="secondary"
+                                            ><s>{{ note.name }}</s></a
+                                            >
+                                        <a class="btn btn-outline-danger"
+                                                   href="{% url 'delete_note' note.id %}">Delete</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
 {% endblock %}

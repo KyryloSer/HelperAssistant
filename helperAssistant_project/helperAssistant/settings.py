@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,7 +58,9 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates'),
                  os.path.join(BASE_DIR, 'addressbookapp', 'templates'),
-                 os.path.join(BASE_DIR, 'notebookapp', 'templates')],
+                 os.path.join(BASE_DIR, 'notebookapp', 'templates'),
+                 os.path.join(BASE_DIR, 'newsapp', 'templates')],
+
 
         'APP_DIRS': True,
         'OPTIONS': {
@@ -75,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'helperAssistant.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -89,7 +89,6 @@ DATABASES = {
         'PORT': 5432
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settingkwuiijrrs/#auth-password-validators
@@ -109,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -120,7 +118,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

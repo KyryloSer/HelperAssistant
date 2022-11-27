@@ -1,19 +1,13 @@
-{% extends "base.html" %}
+{% extends "notebookapp/base.html" %}
 
 {% block content %}
 
-<form class="d-flex" action="{% url 'find_note' %}" role="search" method="get" enctype="multipart/form-data">
-        <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-          </form><main class="container">
-
-
-      <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+<main class="mb-1">
         {% if user.is_authenticated %}
         <ul>
-          <li><a href="{% url 'note' %}" role="button">Add note</a></li>
-          <li><a href="{% url 'usertag' %}" role="button">Add Tag</a></li>
-
+          <li><a class="btn btn-outline-info mx-1" href="{% url 'note' %}" role="button">Add note</a></li>
+          <li><a class="btn btn-outline-info mx-1" href="{% url 'usertag' %}" role="button">Add Tag</a></li>
+            <li><a class="btn btn-outline-info mx-1" href="{% url 'show_notes' %}" role="button">Find Note</a></li>
         </ul>
         {% else %}
         <ul>
@@ -23,30 +17,5 @@
         </ul>
         {% endif %}
       </nav>
-
-      {% for note in notes%}
-      <ul>
-        <li>
-          {%if not note.done%}
-          <a href="{% url 'detail' note.id %}" role="button" class="outline"
-            >{{note.name}}</a
-          >
-          <a href="{% url 'set_done' note.id %}" role="button">Mark Done</a>
-          <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
-            >Delete note</a
-          >
-          {% else %}
-
-          <a href="{% url 'detail' note.id %}" role="button" class="secondary"
-            ><s>{{note.name}}</s></a
-          >
-            <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
-            >Delete note</a
-          >
-          {% endif %}
-        </li>
-      </ul>
-      {% endfor %}
     </main>
-
 {% endblock %}
