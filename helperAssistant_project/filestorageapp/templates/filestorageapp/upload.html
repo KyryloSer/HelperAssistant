@@ -1,0 +1,41 @@
+{% extends "helperAssistant/base.html" %}
+
+{% block content %}
+<h2> Upload </h2>
+<div class="container'">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <a href="{% url 'gallery' %}" class="btn btn-dark my-3"> Go Back</a>
+            <div class="card">
+                <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <div class="form-group m-3">
+                        <label>Description </label>
+                        <input name="title" type="text" placeholder="Enter a description" class="form-control-file">
+                    </div>
+                     <div class="form-group m-3">
+                        <label>Select a category</label>
+                         <select name="category"  class="form-control-file">
+                             <option value="none">Select a category...</option>
+                             {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                             {% endfor%}
+                         </select>
+                    </div>
+                    <div class="form-group m-3">
+                        <label>Create a new category </label>
+                        <input name="category_new" type="text" placeholder="Create a new category" class="form-control-file">
+                    </div>
+                    <div class="form-group m-3">
+                        <label>Upload file </label>
+                        <input name="picture" type="file" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary m-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

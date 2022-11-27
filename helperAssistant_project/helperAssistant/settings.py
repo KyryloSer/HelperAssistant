@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
 
+
+env = environ.Env()
+environ.Env().read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -26,7 +29,6 @@ SECRET_KEY = 'django-insecure-per57#ghya_pu87ehqthzxn@n=#g3l*btt8za5kyj@3$g7q06u
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
     'newsapp',
     'notebookapp',
     'filestorageapp',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,8 @@ ROOT_URLCONF = 'helperAssistant.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates'),
+                 os.path.join(BASE_DIR, 'filestorageapp', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,21 +78,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'helperAssistant.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kwuiijrr',
-        'USER': 'kwuiijrr',
-        'PASSWORD': '1V70tUgoYVwVX7N9RBa1wo-Vdise8qWp',
-        'HOST': 'mouse.db.elephantsql.com',
+        'ENGINE': env('DATABASE_ENGINE'),
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
         'PORT': 5432
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settingkwuiijrrs/#auth-password-validators
@@ -107,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -119,7 +121,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -127,5 +128,19 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'helperAssistant_project/media')]
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/helper_assistant/'
+
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET')
+}
+
