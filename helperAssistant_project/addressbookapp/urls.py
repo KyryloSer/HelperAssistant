@@ -12,5 +12,5 @@ urlpatterns = [
     path('edit_contact/<int:pk>/', views.edit_contact, name='edit-contact'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
     path('birthdays/', views.BirthdayView.as_view(), name='birthdays'),
-    path('fake/', views.add_fake_contact, name = 'add_fake_contact'),
+    # path('fake/', views.add_fake_contact, name = 'add_fake_contact'),
 ]

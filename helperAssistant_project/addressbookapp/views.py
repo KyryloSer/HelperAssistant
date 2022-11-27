@@ -15,9 +15,9 @@ from .forms import ContactForm, ContactEditForm
 from .models import Contact, Phone, Email
 
 
-from faker import Faker
+# from faker import Faker
 
-faker = Faker('uk_UA')
+# faker = Faker('uk_UA')
 
 
 class ContactDetailView(DetailView):
@@ -186,19 +186,19 @@ def main(request):
     return render(request, 'addressbookapp/addressbook_home.html', {"page_obj": page_obj})
 
 
-@login_required
-def add_fake_contact(request):
-    for i in range(50):
-        contact = Contact.objects.create(
-            owner_id=request.user.id,
-            name=faker.name(),
-            birthday=faker.date_between(start_date='-60y', end_date='-10y'),
-            address=faker.address(),
-            description="Fake note"
-        )
-
-        for i in range(3):
-            Phone.objects.create(contact=contact, phone=faker.phone_number())
-
-        Email.objects.create(contact=contact, email=faker.email())
-    return redirect('addressbookapp_main')
+# @login_required
+# def add_fake_contact(request):
+#     for i in range(50):
+#         contact = Contact.objects.create(
+#             owner_id=request.user.id,
+#             name=faker.name(),
+#             birthday=faker.date_between(start_date='-60y', end_date='-10y'),
+#             address=faker.address(),
+#             description="Fake note"
+#         )
+#
+#         for i in range(3):
+#             Phone.objects.create(contact=contact, phone=faker.phone_number())
+#
+#         Email.objects.create(contact=contact, email=faker.email())
+#     return redirect('addressbookapp_main')
