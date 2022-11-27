@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def main(request):
-    return render(request, 'helperAssistant/index.html', {})
+    return render(request, 'index.html', {})
 
 
 def registration(request):

@@ -1,4 +1,6 @@
+
 from itertools import groupby
+
 
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
@@ -124,10 +126,12 @@ def edit_note(request, note_id):
     return render(request, 'notebookapp/edit_note.html', {"tags": tags, 'form': NoteForm(instance=note)})
 
 
+
 @login_required
 def set_done(request, note_id):
     Note.objects.filter(pk=note_id, user_id=request.user).update(done=True)
     return redirect('show_notes')
+
 
 
 @login_required

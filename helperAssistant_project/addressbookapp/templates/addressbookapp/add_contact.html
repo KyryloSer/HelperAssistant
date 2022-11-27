@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'add-contact' %}" method='post'>
+    {% csrf_token %}
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-5 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body p-2">
+                            <h2 class=text-center>Добавити новий контакт</h2>
+                            <form>
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="name" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="name">Повне ім'я</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input type="date" id="birthday" class="form-control-lg"/>
+                                    <label class="form-label" for="birthday">День народження</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="email" id="email" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="email">Email</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="address" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="address">Адрес</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="description" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="description">Опис</label>
+                                </div>
+                                <div class="form-outline mb-2">
+                                    <label for="phone">Телефони: </label>
+                                    <input type="text" id="phone" class="form-control-lg"/>
+                                    <input type="text" id="phone" class="form-control-lg"/>
+                                    <input type="text" id="phone" class="form-control-lg"/>
+
+                                </div>
+
+                                <div class="form-check d-flex justify-content-center mb-5">
+                                    <input class="form-check " type="checkbox" value=""
+                                           id="nomoscal"/>
+
+                                    <label class="form-check-label" for="nomoscal">
+                                         Я стверджую, що контакт не
+                                        москаль! </u></a>
+                                    </label>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="button"
+                                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                        Добавити
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+</form>
+{% endblock %}
