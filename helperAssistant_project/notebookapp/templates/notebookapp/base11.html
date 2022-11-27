@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Helper Assistant | News</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png" />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-brand">Helper Assistant</div>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+         {% if user.is_authenticated %}
+        <ul class="navbar-nav ml-auto">
+            <li class="navbar-brand">
+                Welcome <a class="navbar-brand">{{ user.username }}!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logoutuser' %}">Log out</a>
+            </li>
+            </ul>
+            {% else %}
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'registration' %}">Registration</a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</nav>
+</header>
+
+<main>
+<div class="d-flex">
+    <div class="d-flex flex-column col-2 flex-shrink-2 p-3 bg-dark" style="width: 180px; height:90vh;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-white">
+            <svg class="bi pe-none me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4">Menu</span>
+        </a>
+        <hr color="white">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    AddressBook
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    NoteBook
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    File Storage
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" aria-current="page">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    The News
+                </a>
+            </li>
+        </ul>
+        <hr>
+    </div>
+
+    <div class="d-flex flex-column col-10 flex-shrink-10">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+</main>
+
+
+
+
+
+
+<footer class="bg-dark text-center text-white fixed-bottom">
+    <div class="text-center">
+        © 2022 Copyright:
+        <a class="text-white" href="https://github.com/KyryloSer/HelperAssistant">Helper Assistant</a>
+    </div>
+</footer>
+<script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="mb-1">
+        {% if user.is_authenticated %}
+        <ul>
+          <li><a class="btn btn-outline-info mx-1" href="{% url 'note' %}" role="button">Add note</a></li>
+          <li><a class="btn btn-outline-info mx-1" href="{% url 'usertag' %}" role="button">Add Tag</a></li>
+            <li><a class="btn btn-outline-info mx-1" href="{% url 'show_notes' %}" role="button">Find Note</a></li>
+        </ul>
+        {% else %}
+        <ul>
+            <h2>
+                Authorisation required!
+            </h2>
+        </ul>
+        {% endif %}
+      </nav>
+    </main>
+{% endblock %}

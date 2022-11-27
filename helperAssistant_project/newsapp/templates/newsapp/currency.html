@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+    <div class="d-flex flex-column col-2 flex-shrink-2 p-3" style="width: 180px; height:90vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            {% for k, v in category_dict.items %}
+            <li class="nav-item">
+                <a href="{% url v %}" class="nav-link" aria-current="page">
+                    {{ k }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <br>
+    </div>
+    <div class="d-flex flex-column col-10 flex-shrink-10">
+        <div class="container-center">
+            <h1>Курс валюти в Україні на {{ current_date }}</h1>
+            <div class="table-responsive">
+                <table class="table table-success table-striped-columns table-bordered align-middle">
+                    <thead>
+                    <tr class="align-middle">
+                        <th scope="col">Валюта</th>
+                        <th scope="col">Купівля</th>
+                        <th scope="col">Продаж</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cur_dict in exchange_rate %}
+                    <tr class="align-middle">
+                        <td>{{ cur_dict.ccy }}</td>
+                        <td>{{ cur_dict.buy }}</td>
+                        <td>{{ cur_dict.sale }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% for cur_dict in exchange_rate %}
+
+<h4>Currency: {{ cur_dict.ccy }}</h4>
+<h4>Currency: {{ cur_dict.base_ccy }}</h4>
+<h4>Buy: {{ cur_dict.buy }}</h4>
+<h4>Sale: {{ cur_dict.sale }}</h4>
+{% endfor %}

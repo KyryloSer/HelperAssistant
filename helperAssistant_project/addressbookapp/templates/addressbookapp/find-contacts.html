@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Find{% endblock %}
+
+
+{% block content %}
+<div>
+    <form action="/addressbook/find-contacts/" method="post">
+        <table>
+            <tbody>
+                {% csrf_token %}
+                {{ form.as_table}}
+                <input type="submit" class="btn btn-success" value="Искать">
+            </tbody>
+        </table>
+    </form>
+</div>
+<hr>
+<div>
+
+</div>
+{% endblock %}

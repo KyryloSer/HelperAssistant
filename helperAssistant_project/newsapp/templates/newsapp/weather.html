@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex">
+    <div class="d-flex flex-column col-2 flex-shrink-2 p-3" style="width: 180px; height:90vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            {% for k, v in category_dict.items %}
+            <li class="nav-item">
+                <a href="{% url v %}" class="nav-link" aria-current="page">
+                    {{ k }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <br>
+    </div>
+    <div class="d-flex flex-column col-10 flex-shrink-10">
+        <h1>{{ forecast.title }}</h1>
+        <br>
+        <h1>Температура повітря: {{ forecast.temperature }} C</h1>
+        <br>
+        <h3>{{ forecast.state }}</h3>
+        <br>
+        <h4>{{ forecast.fallout }}</h4>
+        <h4>{{ forecast.pressure }}</h4>
+        <h4>{{ forecast.wind }}</h4>
+        <h4>{{ forecast.humidity }}</h4>
+        <br>
+        <div class="container">
+            <form class="form-inline" method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <select name="comp_select" class="selectpicker form-control">
+                            <option selected>--Оберіть місто--</option>
+                            {% for k, v in cities_dict.items %}
+                            <option value="{{ v }}">{{ k }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+
+
+

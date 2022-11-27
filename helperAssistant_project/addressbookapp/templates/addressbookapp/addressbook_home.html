@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main_title %}
+Список контактов
+{% endblock %}
+
+{% block content %}
+
+<div class="btn-group btn-group-justified">
+
+    <a class="btn btn-primary" href="{% url 'add-contact' %}" role="button">+ Добавити контакт</a>
+    <!--    <a class="btn btn-primary" href="" role="button">- DELETE CONTACT</a>-->
+    <a class="btn btn-primary" href="{% url 'birthdays' %}" role="button">Найближчі ДН</a>
+
+    <!-- Modal 1-->
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal"> Редагувати
+        контакт
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content start-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <form name="jksearch" action="{% url 'find-contacts' %}" target="_blank" onSubmit=>
+                        Введить ім'я для редагування: <br/>
+                        {% csrf_token %}
+
+                        <input id="hiddenquery" type="hidden" name=""/>
+                        <input name="q" type="text" style="width: 200px" value=""/> <input type="submit"
+                                                                                           value="Search"/><br/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal 2-->
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal_2">Пошук
+    </button>
+
+    <div class="modal fade" id="myModal_2" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content start-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="jksearch" action="{% url 'search_results' %}" target="_blank" onSubmit=>
+                                                Введить ім'я для пошуку: <br/>
+
+                        {% csrf_token %}
+
+                        <input class="form-control me-3" name="q" type="search" placeholder="Search"
+                               aria-label="Search">
+
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-success" type="submit">Пошук</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+ <div class="pagination text-gray-300 mt-3 text-center">
+
+        <span class="step-links">
+
+            {% if page_obj.has_previous %}
+
+                <a href="?page=1">&laquo;  First</a>
+                <a href="?page={{ page_obj.previous_page_number }}"> Previous</a>
+            {% endif %}
+
+            <span class="current">
+
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next  </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Last  &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+<br>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col"> Повне ім'я</th>
+        <th scope="col">Телефони</th>
+        <th scope="col">Email</th>
+        <th scope="col">День народження</th>
+        <th scope="col">Опис</th>
+        <th scope="col">Edit or Delete</th>
+
+
+    </tr>
+    </thead>
+    {% for contact in page_obj %}
+    <tbody>
+    <tr>
+        <th scope="row">{{ contact.id }}</th>
+        <td><a href="detail/{{contact.id}}/"> {{ contact.name }} </a></td>
+        <td>
+            {% for phone in contact.phones.all %}
+            <span> {{phone.phone}}; </span>
+
+            {%endfor%}
+        </td>
+
+        <td>{{contact.emails.first.email}}</td>
+        <td>{{ contact.birthday }}</td>
+        <td>{{contact.description }}</td>
+        <td><a href="edit_contact/{{contact.id}}/">Edit</a> | <a href="delete_contact/{{contact.id}}/">Delete</a></td>
+
+    </tr>
+    {% endfor %}
+
+
+
+    </tbody>
+</table>
+
+
+{% endblock %}

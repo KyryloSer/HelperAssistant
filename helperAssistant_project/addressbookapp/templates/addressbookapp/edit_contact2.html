@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'edit-contact' contact.pk %}" method='post'>
+    {% csrf_token %}
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-5 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body p-2">
+                            <h2 class=text-center>Ви хочете змінити контакт:</h2>
+                            <form>
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="name" name="name" value='{{contact.name}}'   class="form-control form-control-lg"/>
+                                    <label class="form-label" for="name">Повне ім'я</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input type="date" id="birthday" value='{{contact.birthday.isoformat}}' name="birthday"
+                                           class="form-control-lg"/>
+                                    <label class="form-label" for="birthday">День народження</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="email" value='{{contact.emails.first.email}}'
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="email">Email</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="address" value='{{contact.address}}'
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="address">Адрес</label>
+                                </div>
+
+                                <div class="form-outline mb-2">
+                                    <input type="text" id="description" value='{{contact.description}}'
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="description">Опис</label>
+                                </div>
+                                <div class="form-outline mb-2">
+                                    <label for="phone">Телефони: </label>
+                                    {% for phone in contact.phones.all %}
+                                    <input type="text" id="phone" value='{{phone.phone}}' class="form-control-lg"/>
+
+                                </div>
+                                {% endfor %}
+
+
+
+                            </form>
+                                <input class="btn btn-success" type=submit>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+</form>
+{% endblock %}
