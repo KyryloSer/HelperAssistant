@@ -15,7 +15,9 @@ from .models import Tag, Note, User
 from .forms import TagForm, NoteForm
 
 
+
 # Create your views here.
+
 def start(request):
     notes = []
     if request.user.is_authenticated:

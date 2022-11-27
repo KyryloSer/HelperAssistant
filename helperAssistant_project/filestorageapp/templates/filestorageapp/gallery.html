@@ -1,0 +1,48 @@
+{% extends "helperAssistant/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    Categories
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="{% url 'gallery' %}">All</a>
+                    </li>
+                    {% for category in categories %}
+                    <li class="list-group-item"><a href="{% url 'gallery' %}?category={{category.name }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                    <li class="list-group-item">
+                        <a href="{% url 'upload' %}" class="btn btn-dark btn-block btn-sm m-1">Upload picture</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                {% for picture in pictures %}
+                <div class="col-md-4 mb-3">
+                    <div class="card text-dark bg-light border-success h-100 mb-3">
+                        <img class="card-img-top" src="{{ picture.picture.url }}" alt="Card image cap">
+                        <div class="card-body mb-3">
+                            <small>Category: {{ picture.category.name }}</small>
+                        </div>
+                         <form method="post" action="{% url 'delete_picture' picture.id %}">
+                             {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-block">
+                        <a href="{% url 'picture' picture.id %}" class="btn btn-outline-info btn-sm m-1">View</a>
+                            <button type ="submit" class="btn btn-danger btn-sm ">Delete</button>
+                             </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <h3>No picture...</h3>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
 
+
+env = environ.Env()
+environ.Env().read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +43,8 @@ INSTALLED_APPS = [
     'newsapp',
     'notebookapp',
     'filestorageapp',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -60,8 +66,6 @@ TEMPLATES = [
                  os.path.join(BASE_DIR, 'addressbookapp', 'templates', 'addressbookapp'),
                  os.path.join(BASE_DIR, 'notebookapp', 'templates', 'notebookapp'),
                  os.path.join(BASE_DIR, 'newsapp', 'templates', 'newsapp')],
-
-
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,11 +85,11 @@ WSGI_APPLICATION = 'helperAssistant.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'kwuiijrr',
-        'USER': 'kwuiijrr',
-        'PASSWORD': '1V70tUgoYVwVX7N9RBa1wo-Vdise8qWp',
-        'HOST': 'mouse.db.elephantsql.com',
+        'ENGINE': env('DATABASE_ENGINE'),
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
         'PORT': 5432
     }
 }
@@ -126,5 +130,19 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'helperAssistant_project/media')]
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/helper_assistant/'
+
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUD_API_KEY'),
+    'API_SECRET': env('CLOUD_API_SECRET')
+}
+
