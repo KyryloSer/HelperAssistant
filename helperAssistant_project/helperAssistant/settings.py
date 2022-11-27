@@ -56,10 +56,10 @@ ROOT_URLCONF = 'helperAssistant.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates'),
-                 os.path.join(BASE_DIR, 'addressbookapp', 'templates'),
-                 os.path.join(BASE_DIR, 'notebookapp', 'templates'),
-                 os.path.join(BASE_DIR, 'newsapp', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates', 'helperAssistant'),
+                 os.path.join(BASE_DIR, 'addressbookapp', 'templates', 'addressbookapp'),
+                 os.path.join(BASE_DIR, 'notebookapp', 'templates', 'notebookapp'),
+                 os.path.join(BASE_DIR, 'newsapp', 'templates', 'newsapp')],
 
 
         'APP_DIRS': True,
