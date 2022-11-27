@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <br>
+    <h5> Список іменинників в найближчу неділю: </h5>
+
+</div>
+<br>
+
+
+<table class="table">
+    <thead class="table-dark">
+
+
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col"> Повне ім'я</th>
+        <th scope="col">Телефони</th>
+        <th scope="col">Email</th>
+        <th scope="col">День народження</th>
+        <th scope="col">Опис</th>
+        <th scope="col">Edit or Delete</th>
+
+    </tr>
+    </thead>
+
+    {% for contact in object_list %}
+    <tbody>
+    <tr>
+        <th scope="row">{{ contact.id }}</th>
+        <td> <a href="../detail/{{contact.id}}/"> {{ contact.name }} </a> </td>
+        <td>
+            {% for phone in contact.phones.all %}
+            <span> {{phone.phone}}; </span>
+            {%endfor%}
+        <td>{{contact.emails.first.email}}</td>
+        <td>{{ contact.birthday }}</td>
+        <td>{{ contact.description }}</td>
+        <td><a href="../edit_contact/{{contact.id}}/">Edit</a> | <a href="../delete_contact/{{contact.id}}/">Delete</a></td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock%}

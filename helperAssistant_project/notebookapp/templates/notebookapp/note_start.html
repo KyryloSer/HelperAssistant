@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form class="d-flex" action="{% url 'find_note' %}" role="search" method="get" enctype="multipart/form-data">
+        <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+          </form><main class="container">
+
+
+      <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        {% if user.is_authenticated %}
+        <ul>
+          <li><a href="{% url 'note' %}" role="button">Add note</a></li>
+          <li><a href="{% url 'usertag' %}" role="button">Add Tag</a></li>
+
+        </ul>
+        {% else %}
+        <ul>
+            <h2>
+                Authorisation required!
+            </h2>
+        </ul>
+        {% endif %}
+      </nav>
+
+      {% for note in notes%}
+      <ul>
+        <li>
+          {%if not note.done%}
+          <a href="{% url 'detail' note.id %}" role="button" class="outline"
+            >{{note.name}}</a
+          >
+          <a href="{% url 'set_done' note.id %}" role="button">Mark Done</a>
+          <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
+            >Delete note</a
+          >
+          {% else %}
+
+          <a href="{% url 'detail' note.id %}" role="button" class="secondary"
+            ><s>{{note.name}}</s></a
+          >
+            <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
+            >Delete note</a
+          >
+          {% endif %}
+        </li>
+      </ul>
+      {% endfor %}
+    </main>
+
+{% endblock %}

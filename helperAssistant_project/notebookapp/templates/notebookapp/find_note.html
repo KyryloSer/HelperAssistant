@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="container">
+{% for note in notes%}
+      <ul>
+        <li>
+          {%if not note.done%}
+          <a href="{% url 'detail' note.id %}" role="button" class="outline"
+            >{{note.name}}</a
+          >
+          <a href="{% url 'set_done' note.id %}" role="button">Mark Done</a>
+          <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
+            >Delete note</a
+          >
+          {% else %}
+
+          <a href="{% url 'detail' note.id %}" role="button" class="secondary"
+            ><s>{{note.name}}</s></a
+          >
+            <a href="{% url 'delete_note' note.id %}" role="button" class="contrast"
+            >Delete note</a
+          >
+          {% endif %}
+        </li>
+      </ul>
+      {% endfor %}
+        </main>
+
+{% endblock %}
