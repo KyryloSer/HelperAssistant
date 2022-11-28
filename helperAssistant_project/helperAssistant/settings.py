@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-per57#ghya_pu87ehqthzxn@n=#g3l*btt8za5kyj@3$g7q06u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ha.fly.dev', 'fly.io/apps/ha.fly.dev']
+CSRF_TRUSTED_ORIGINS = ['https://ha.fly.dev']
 
 # Application definition
 
