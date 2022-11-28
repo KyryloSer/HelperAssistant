@@ -4,6 +4,13 @@
 
 
 {% block content %}
+
+<div class="btn-group btn-group-justified">
+
+    <a class="btn btn-primary" href="{% url 'addressbookapp_main' %}" role="button"> На основну сторінку</a>
+
+</div>
+
 <div>
     <form action="/addressbook/find-contacts/" method="post">
         <table>
