@@ -2,11 +2,20 @@
 {% block content %}
 {% load static %}
 
+
+<div class="btn-group btn-group-justified">
+
+    <a class="btn btn-primary" href="{% url 'addressbookapp_main' %}" role="button"> На основну сторінку</a>
+
+</div>
+
 <h4>Ви збираєтесь змінити контакт: </h4>
 
 
-<action="{% url 'edit-contact' contact.pk %}" method='post'>
+<form action="{% url 'edit-contact' contact.pk %}" method='post'>
     {% csrf_token %}
+
+
     <div class="card-body p-2">
 
         <table class="row d-flex justify-content-center align-items-center">
@@ -16,7 +25,8 @@
                     <label class="form-label" for="name">Повне ім'я</label>
                 </td>
                 <td>
-                    <input class="form-control form-control-lg" type=text id="name" value='{{contact.name}}' name="name">
+                    <input class="form-control form-control-lg" type=text id="name" value='{{contact.name}}'
+                           name="name">
                 </td>
 
             </tr>
@@ -25,7 +35,8 @@
                     <label for="birthday">День народження</label>
                 </td>
                 <td>
-                    <input class="form-control form-control-lg" type='date' id="birthday" value='{{contact.birthday.isoformat}}' name="birthday">
+                    <input class="form-control form-control-lg" type='date' id="birthday"
+                           value='{{contact.birthday.isoformat}}' name="birthday">
                 </td>
             </tr>
             <tr>
@@ -33,7 +44,8 @@
                     <label for="address">Адрес</label>
                 </td>
                 <td>
-                    <input class="form-control form-control-lg" id="address" value='{{contact.address}}' size=60 name="address">
+                    <input class="form-control form-control-lg" id="address" value='{{contact.address}}' size=60
+                           name="address">
                 </td>
             </tr>
             <tr>
@@ -64,7 +76,8 @@
                         <tr>
                             {% for email in emails %}
                             <td>
-                                <input class="form-control form-control-lg" id="email" value='{{email.email}}' size=30 name="email">
+                                <input class="form-control form-control-lg" id="email" value='{{email.email}}' size=30
+                                       name="email">
                             </td>
                             {% endfor %}
 
@@ -78,17 +91,20 @@
                     <label for="description">Опис</label>
                 </td>
                 <td>
-                    <input class="form-control form-control-lg" id="description" value='{{contact.description}}' name="description" size=80>
+                    <input class="form-control form-control-lg" id="description" value='{{contact.description}}'
+                           name="description" size=80>
                 </td>
                 <td>
 
                 </td>
             </tr>
         </table>
-        <input class="btn btn-success" type=submit>
-        
-
+        <input type="submit" id='submit' class="btn btn-success" value="Submit">
     </div>
+</form>
+
+
+</div>
 </div>
 
 

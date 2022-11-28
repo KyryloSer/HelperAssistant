@@ -65,7 +65,8 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'helperAssistant', 'templates', 'helperAssistant'),
                  os.path.join(BASE_DIR, 'addressbookapp', 'templates', 'addressbookapp'),
                  os.path.join(BASE_DIR, 'notebookapp', 'templates', 'notebookapp'),
-                 os.path.join(BASE_DIR, 'newsapp', 'templates', 'newsapp')],
+                 os.path.join(BASE_DIR, 'newsapp', 'templates', 'newsapp'),
+                 os.path.join(BASE_DIR, 'filestorageapp', 'templates', 'filestorageapp')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

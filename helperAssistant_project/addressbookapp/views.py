@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta, date
 from itertools import chain
 
 from django.core import paginator
@@ -36,21 +36,18 @@ class BirthdayView(ListView ):
     template_name = 'birthdays.html'
 
     def get_queryset(self):
-        today = datetime.now()
-        end = today + timedelta(days=7)
-        today = today.strftime('%m-%d').split('-')
-        end_birth = end.strftime('%m-%d').split('-')
+        date_begin = date.today()
+        date_end = date_begin + timedelta(days=7)
+        date_begin = (date_begin.month, date_begin.day)
+        date_end = (date_end.month, date_end.day)
 
         contact = Contact.objects.filter(owner_id=self.request.user.id)
         result = []
         for con in contact:
-            con_birth = con.birthday.strftime('%m-%d').split('-')
-            cont_month = con_birth[0]
-            cont_day = con_birth[1]
+            if date_begin < (con.birthday.month, con.birthday.day) < date_end:
 
-            if (int(cont_month) >= int(today[0]) and int(cont_day) >= int(today[1])) \
-                    and (int(cont_month) <= int(end_birth[0]) and int(cont_day) <= int(end_birth[1])) and (int(cont_month) <= int(end_birth[0]) and int(cont_day) >= int(end_birth[1])):
                 result.append(con)
+                print(result)
         return result
 
 
@@ -100,7 +97,7 @@ def add_contact(request):
             name=data['name'][0],
             birthday=data['birthday'][0],
             address=data['address'][0],
-            description=data['description']
+            description=data['description'][0]
         )
 
         create_phones(contact, out_phones=data['phone'])

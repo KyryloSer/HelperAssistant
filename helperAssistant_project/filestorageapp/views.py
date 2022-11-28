@@ -1,6 +1,5 @@
-import cloudinary_storage
+from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
 from .models import Picture, Category
 from django.contrib.auth.decorators import login_required
 
@@ -28,15 +27,18 @@ def upload(request):
     return render(request, 'filestorageapp/upload.html', {'categories': categories})
 
 
-@login_required
+
 def gallery(request):
-    category = request.GET.get('category')
-    if category is None:
-        pictures = Picture.objects.filter(uploaded_by=request.user.id)
+    if not request.user.is_authenticated:
+        return redirect('loginuser')
     else:
-        pictures = Picture.objects.filter(category__name=category, uploaded_by=request.user.id)
-    categories = Category.objects.all()
-    return render(request, 'filestorageapp/gallery.html', {'pictures': pictures, 'categories': categories})
+        category = request.GET.get('category')
+        if category is None:
+            pictures = Picture.objects.filter(uploaded_by=request.user.id)
+        else:
+            pictures = Picture.objects.filter(category__name=category, uploaded_by=request.user.id)
+        categories = Category.objects.all()
+        return render(request, 'filestorageapp/gallery.html', {'pictures': pictures, 'categories': categories})
 
 
 @login_required
@@ -50,10 +52,9 @@ def delete_picture(request, pk):
     if request.method == 'POST':
         print(pk)
         picture = Picture.objects.get(id=pk)
+        print(picture.picture.name)
         try:
-
-            # cloudinary.uploader.destroy(picture.picture.public_id, invalidate=True)
-            # cloudinary_storage.delete(name=picture.picture.name)
+            default_storage.delete(name=picture.picture.name)
             picture.delete()
         except:
             pass
