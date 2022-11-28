@@ -1,4 +1,4 @@
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 from itertools import chain
 
 from django.core import paginator
@@ -68,10 +68,9 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):  # новый
         query = self.request.GET.get('q')
-        object_list_1 = (Contact.objects.filter(Q(name__icontains=query) | Q(description__icontains=query)))
-        object_list_2 = Phone.objects.filter(phone__icontains=query)
-        object_list_3 = Email.objects.filter(email__icontains=query)
-        object_list = chain(object_list_3,object_list_2,object_list_1)
+        object_list = (Contact.objects.filter(Q(name__icontains=query) | Q(description__icontains=query) |
+                                                Q(phones__phone__icontains=query) | Q(emails__email__icontains=query)))
+
         return object_list
 
 
